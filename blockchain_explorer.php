@@ -423,7 +423,7 @@ while ($scanRow = $tempResult->fetch_assoc()) {
 <footer>
   <div style="font-size:24px;">⚖️</div>
   <div class="footer-left">Government of India &nbsp;•&nbsp; Ministry of Home Affairs<br>Digital Evidence Management System &nbsp;•&nbsp; Blockchain Secured</div>
-  <div class="footer-right">NewSoft Solutions &nbsp;|&nbsp; Restricted Access &nbsp;|&nbsp; <?= date('Y') ?></div>
+  <div class="footer-right"> &nbsp;|&nbsp; Restricted Access &nbsp;|&nbsp; <?= date('Y') ?></div>
 </footer>
 
 </body>
