@@ -1,0 +1,749 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEMS — Blockchain Evidence Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --navy:    #0d2240;
+            --navy2:   #163356;
+            --gold:    #c8972a;
+            --gold-lt: #e8b84b;
+            --bg:      #f4f1eb;
+            --bg2:     #ece8df;
+            --white:   #ffffff;
+            --text:    #1a1a1a;
+            --muted:   #5c5c5c;
+            --border:  #d0c9bc;
+            --red:     #9b1c1c;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Source Sans 3', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* ─── BANNER ─── */
+        .gov-banner {
+            background: var(--navy);
+            color: #a8bcd4;
+            font-size: 11.5px;
+            letter-spacing: 0.04em;
+            padding: 6px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .gov-banner strong { color: #fff; }
+
+        /* ─── HEADER ─── */
+        .top-header {
+            background: var(--navy2);
+            border-bottom: 4px solid var(--gold);
+            padding: 0 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .seal {
+            width: 54px; height: 54px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            background: var(--navy);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; flex-shrink: 0;
+        }
+        .header-titles h1 {
+            font-family: 'Source Serif 4', serif;
+            font-size: 17px; font-weight: 700;
+            color: #fff; line-height: 1.2;
+        }
+        .header-titles p {
+            font-size: 10.5px; color: #a8bcd4;
+            letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px;
+        }
+
+        /* Nav links */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .header-nav a {
+            font-size: 13px;
+            font-weight: 600;
+            color: #c8d8e8;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 3px;
+            letter-spacing: 0.04em;
+            transition: background 0.2s, color 0.2s;
+        }
+        .header-nav a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+        .header-nav .sep { color: rgba(255,255,255,0.2); font-size: 16px; }
+
+        .btn-login {
+            margin-left: 16px;
+            padding: 9px 22px;
+            background: transparent;
+            border: 1px solid rgba(200,151,42,0.5);
+            border-radius: 4px;
+            color: var(--gold-lt);
+            font-size: 12px; font-weight: 700;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+        .btn-login:hover { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+
+        /* Mobile toggle */
+        .nav-toggle { display: none; background: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 6px 10px; cursor: pointer; color: #fff; font-size: 18px; }
+
+        @media (max-width: 860px) {
+            .top-header { padding: 0 20px; flex-wrap: wrap; min-height: auto; padding-top: 14px; padding-bottom: 14px; gap: 12px; }
+            .header-nav { display: none; flex-direction: column; width: 100%; padding-bottom: 12px; }
+            .header-nav.open { display: flex; }
+            .nav-toggle { display: block; }
+            .btn-login { margin-left: 0; }
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            background: var(--navy2);
+            border-bottom: 1px solid rgba(200,151,42,0.2);
+            padding: 80px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 48px;
+        }
+
+        .hero-text { max-width: 560px; }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+        .hero-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+
+        .hero-text h2 {
+            font-family: 'Source Serif 4', serif;
+            font-size: clamp(30px, 4vw, 48px);
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+        .hero-text h2 span { color: var(--gold-lt); }
+
+        .hero-text p {
+            font-size: 15px;
+            color: #a8bcd4;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+        .btn-primary-hero {
+            padding: 13px 32px;
+            background: var(--gold);
+            border: none;
+            border-radius: 4px;
+            color: var(--navy);
+            font-size: 13px; font-weight: 700;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+        .btn-primary-hero:hover { background: var(--gold-lt); }
+
+        .btn-secondary-hero {
+            padding: 12px 28px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            color: #c8d8e8;
+            font-size: 13px; font-weight: 600;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+        .btn-secondary-hero:hover { border-color: #fff; color: #fff; }
+
+        /* Hero badge strip */
+        .hero-badges {
+            display: flex;
+            gap: 24px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .hero-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #7a96b0;
+        }
+        .hero-badge svg { flex-shrink: 0; color: var(--gold); }
+
+        /* Hero emblem (right side) */
+        .hero-emblem {
+            flex-shrink: 0;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 2px solid rgba(200,151,42,0.3);
+            background: rgba(13,34,64,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+            text-align: center;
+            padding: 24px;
+        }
+        .hero-emblem .em-icon { font-size: 48px; }
+        .hero-emblem .em-text {
+            font-family: 'Source Serif 4', serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gold-lt);
+            line-height: 1.4;
+        }
+        .hero-emblem .em-sub { font-size: 10px; color: #7a96b0; letter-spacing: 0.08em; text-transform: uppercase; }
+
+        @media (max-width: 860px) {
+            .hero { flex-direction: column; padding: 48px 20px; text-align: center; }
+            .hero-eyebrow { justify-content: center; }
+            .hero-actions { justify-content: center; }
+            .hero-badges { justify-content: center; }
+            .hero-emblem { display: none; }
+        }
+
+        /* ─── STAT STRIP ─── */
+        .stat-strip {
+            background: var(--navy);
+            border-bottom: 1px solid rgba(200,151,42,0.2);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            divide-x: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stat-strip-item {
+            padding: 22px 32px;
+            border-right: 1px solid rgba(255,255,255,0.07);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .stat-strip-item:last-child { border-right: none; }
+
+        .ss-icon {
+            width: 44px; height: 44px;
+            background: rgba(200,151,42,0.1);
+            border: 1px solid rgba(200,151,42,0.2);
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; flex-shrink: 0;
+        }
+        .ss-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #6a88a4; margin-bottom: 2px; }
+        .ss-value { font-size: 20px; font-weight: 700; color: #fff; font-family: 'Source Serif 4', serif; line-height: 1; }
+        .ss-sub { font-size: 11px; color: var(--gold); margin-top: 2px; }
+
+        @media (max-width: 680px) {
+            .stat-strip { grid-template-columns: 1fr; }
+            .stat-strip-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+        }
+
+        /* ─── FEATURES ─── */
+        .features-section {
+            padding: 60px 48px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 36px;
+            padding-bottom: 18px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+        .section-header h3 {
+            font-family: 'Source Serif 4', serif;
+            font-size: 22px; font-weight: 700;
+            color: var(--navy);
+        }
+        .section-header p { font-size: 12px; color: var(--muted); text-align: right; }
+
+        .feat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 860px) { .feat-grid { grid-template-columns: 1fr; } .features-section { padding: 40px 20px; } }
+
+        .feat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--navy);
+            border-radius: 4px;
+            padding: 28px 24px 22px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: border-top-color 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+        .feat-card:hover {
+            border-top-color: var(--gold);
+            box-shadow: 0 6px 24px rgba(13,34,64,0.1);
+            transform: translateY(-2px);
+        }
+        .feat-card .card-ref {
+            font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--muted); margin-bottom: 14px;
+        }
+        .feat-card .card-icon {
+            width: 48px; height: 48px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; margin-bottom: 16px;
+        }
+        .feat-card h4 {
+            font-family: 'Source Serif 4', serif;
+            font-size: 17px; font-weight: 700;
+            color: var(--navy); margin-bottom: 8px;
+        }
+        .feat-card p {
+            font-size: 13px; color: var(--muted);
+            line-height: 1.65; flex: 1; margin-bottom: 20px;
+        }
+        .feat-card .card-stat {
+            font-size: 11px; font-weight: 700;
+            color: var(--navy); letter-spacing: 0.04em;
+            margin-bottom: 16px;
+        }
+        .feat-card .card-stat span { color: var(--gold); }
+        .card-cta {
+            display: flex; align-items: center; justify-content: space-between;
+            border-top: 1px solid var(--border);
+            padding-top: 14px;
+        }
+        .card-cta-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--navy); font-weight: 600; }
+        .card-cta-btn {
+            background: var(--navy); color: #fff;
+            font-size: 12px; font-weight: 600;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            padding: 7px 16px; border-radius: 3px;
+            transition: background 0.2s;
+        }
+        .feat-card:hover .card-cta-btn { background: var(--gold); color: var(--navy); }
+
+        /* ─── MODAL ─── */
+        .modal-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(10,18,32,0.7);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.open { display: flex; }
+
+        .modal-box {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--navy);
+            border-radius: 4px;
+            width: 100%;
+            max-width: 440px;
+            margin: 16px;
+            overflow: hidden;
+        }
+        .modal-head {
+            background: var(--navy2);
+            border-bottom: 3px solid var(--gold);
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-head h5 {
+            font-family: 'Source Serif 4', serif;
+            font-size: 17px; font-weight: 700;
+            color: #fff;
+        }
+        .modal-head p { font-size: 11px; color: #7a96b0; margin-top: 2px; letter-spacing: 0.04em; }
+        .modal-close {
+            background: none; border: none;
+            color: #7a96b0; font-size: 22px;
+            cursor: pointer; line-height: 1;
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: #fff; }
+
+        .modal-body { padding: 28px 24px; }
+
+        .modal-field { margin-bottom: 18px; }
+        .modal-field label {
+            display: block;
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            color: var(--navy); margin-bottom: 6px;
+        }
+        .modal-field input {
+            width: 100%; padding: 10px 12px;
+            font-size: 14px;
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 3px; outline: none;
+            transition: border-color 0.2s, background 0.2s;
+            color: var(--text);
+        }
+        .modal-field input:focus {
+            border-color: var(--navy);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(13,34,64,0.08);
+        }
+
+        .btn-modal-submit {
+            width: 100%; padding: 12px;
+            background: var(--navy); border: none;
+            border-radius: 3px; color: #fff;
+            font-size: 13px; font-weight: 700;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            cursor: pointer; transition: background 0.2s;
+            font-family: 'Source Sans 3', sans-serif;
+            margin-top: 8px;
+        }
+        .btn-modal-submit:hover { background: var(--gold); color: var(--navy); }
+
+        .modal-demo {
+            text-align: center;
+            margin-top: 14px;
+            font-size: 12px;
+            color: var(--muted);
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 8px;
+        }
+
+        /* ─── NOTICE ─── */
+        .notice-strip {
+            background: #fffbeb;
+            border-top: 1px solid #e6d28a;
+            border-bottom: 1px solid #e6d28a;
+            padding: 12px 48px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 12.5px;
+            color: #6b5a1e;
+            line-height: 1.6;
+        }
+
+        /* ─── FOOTER ─── */
+        .gov-footer {
+            background: var(--navy);
+            border-top: 3px solid var(--gold);
+            padding: 18px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #6a88a4;
+            letter-spacing: 0.04em;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .gov-footer strong { color: #a8bcd4; }
+    </style>
+</head>
+<body>
+
+<!-- Banner -->
+<div class="gov-banner">
+    <span>🔒 <strong>OFFICIAL GOVERNMENT PORTAL</strong> — Authorized personnel only. All activity is monitored and logged.</span>
+    <span>CLASSIFICATION: <strong>RESTRICTED</strong></span>
+</div>
+
+<!-- Header -->
+<header class="top-header">
+    <div class="header-left">
+        <div class="seal">⚖️</div>
+        <div class="header-titles">
+            <h1>Blockchain Evidence Management System</h1>
+            <p>Ministry of Justice &nbsp;|&nbsp; Digital Forensics Division &nbsp;&nbsp;</p>
+        </div>
+    </div>
+    <nav class="header-nav" id="mainNav">
+        <a href="#">Home</a>       
+        <span class="sep">|</span>
+        <!-- <a href="#">Case List</a> -->
+        <!-- <span class="sep">|</span> -->
+        <a href="#">Connect Wallet</a>
+        <span class="sep">|</span>
+        <button class="btn-login" onclick="openModal()">Officer Login</button>
+    </nav>
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-text">
+        <div class="hero-eyebrow">Ministry of Justice — Digital Forensics</div>
+        <h2>Blockchain for<br><span>Justice</span></h2>
+        <p>A government-grade, blockchain-based evidence management system to preserve the sanctity and integrity of evidence presented in courts of law.</p>
+        <!-- <div class="hero-actions">
+            <button class="btn-primary-hero" onclick="openModal()">Officer Login</button>
+            <button class="btn-secondary-hero">Learn More</button>
+        </div> -->
+        <div class="hero-badges">
+            <div class="hero-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Tamper-Proof Records
+            </div>
+            <div class="hero-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Immutable Audit Trail
+            </div>
+            <div class="hero-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Court-Admissible
+            </div>
+        </div>
+    </div>
+    <div class="hero-emblem">
+        <div class="em-icon">⚖️</div>
+        <div class="em-text">Ministry of Justice</div>
+        <div class="em-sub">Digital Forensics Division</div>
+    </div>
+</section>
+
+<!-- Stat Strip -->
+<div class="stat-strip">
+    <div class="stat-strip-item">
+        <div class="ss-icon">📁</div>
+        <div>
+            <div class="ss-label">Cases Registered Today</div>
+            <div class="ss-value">0</div>
+            <div class="ss-sub">Updated live</div>
+        </div>
+    </div>
+    <div class="stat-strip-item">
+        <div class="ss-icon">📦</div>
+        <div>
+            <div class="ss-label">Avg. Evidence per Case</div>
+            <div class="ss-value">0</div>
+            <div class="ss-sub">Across all cases</div>
+        </div>
+    </div>
+    <div class="stat-strip-item">
+        <div class="ss-icon">🔍</div>
+        <div>
+            <div class="ss-label">Total Cases on Chain</div>
+            <div class="ss-value">0</div>
+            <div class="ss-sub">Blockchain verified</div>
+        </div>
+    </div>
+</div>
+
+<!-- Features -->
+<section class="features-section">
+    <div class="section-header">
+        <h3>Available Modules</h3>
+        <p>Login required to access modules<br>All actions are blockchain-logged</p>
+    </div>
+    <div class="feat-grid">
+
+        <div class="feat-card" onclick="openModal()">
+            <div class="card-ref">Case Registry</div>
+            <div class="card-icon">📁</div>
+            <h4>Register a Case</h4>
+            <p>Initiate a new legal case record. Metadata is hashed and anchored to the blockchain with an immutable timestamp.</p>
+            <div class="card-stat">Registered Today: <span>0</span></div>
+            <div class="card-cta">
+                <span class="card-cta-label">Access Module</span>
+                <span class="card-cta-btn">Login to Use</span>
+            </div>
+        </div>
+
+        <div class="feat-card" onclick="openModal()">
+            <div class="card-ref">Evidence Vault</div>
+            <div class="card-icon">📤</div>
+            <h4>Submit Evidence</h4>
+            <p>Upload and register digital evidence files. Every submission is cryptographically sealed and assigned a verified on-chain hash.</p>
+            <div class="card-stat">Avg. Evidence per Case: <span>0</span></div>
+            <div class="card-cta">
+                <span class="card-cta-label">Access Module</span>
+                <span class="card-cta-btn">Login to Use</span>
+            </div>
+        </div>
+
+        <div class="feat-card" onclick="openModal()">
+            <div class="card-ref">Case Explorer</div>
+            <div class="card-icon">🔍</div>
+            <h4>Explore Cases</h4>
+            <p>Browse all registered cases, verify chain-of-custody integrity, and retrieve full audit trails for individual evidence items.</p>
+            <div class="card-stat">Total Cases: <span>0</span></div>
+            <div class="card-cta">
+                <span class="card-cta-label">Access Module</span>
+                <span class="card-cta-btn">Login to Use</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="loginModal" onclick="closeModalOutside(event)">
+    <div class="modal-box">
+        <div class="modal-head">
+            <div>
+                <h5>Officer Login</h5>
+                <p>BEMS Secure Portal — Authorized Access Only</p>
+            </div>
+            <button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div id="error-message" style="display:none; background:#fee; border:1px solid #fcc; border-left:4px solid #c33; border-radius:3px; padding:12px 16px; margin-bottom:16px; font-size:13px; color:#911;">
+                <strong>⚠ Login Failed:</strong> <span id="error-text"></span>
+            </div>
+            <div id="success-message" style="display:none; background:#efe; border:1px solid #cfc; border-left:4px solid #3c3; border-radius:3px; padding:12px 16px; margin-bottom:16px; font-size:13px; color:#191;">
+                <strong>✓ Success:</strong> <span id="success-text"></span>
+            </div>
+            <form id="loginForm">
+                <div class="modal-field">
+                    <label>Officer Username</label>
+                    <input type="text" name="UserName" id="UserName" placeholder="Enter username" required>
+                </div>
+                <div class="modal-field">
+                    <label>Password</label>
+                    <input type="password" name="Password" id="Password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" id="btnLogin" class="btn-modal-submit">
+                    Verify &amp; Login
+                </button>
+            </form>
+            <!--<div class="modal-demo">
+                Demo credentials — ID: <strong>admin</strong> &nbsp;|&nbsp; Password: <strong>1234</strong>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="gov-footer">
+    <span>© 2025 <strong>Ministry of Justice — Digital Forensics Division</strong>. All rights reserved.</span>
+    <span><strong>New Soft Solutions PVT LTD</strong></span>
+</footer>
+
+<script>
+    function openModal()  { 
+        document.getElementById('loginModal').classList.add('open'); 
+        document.getElementById('error-message').style.display = 'none';
+        document.getElementById('success-message').style.display = 'none';
+        document.getElementById('loginForm').reset();
+    }
+    function closeModal() { 
+        document.getElementById('loginModal').classList.remove('open'); 
+        document.getElementById('error-message').style.display = 'none';
+        document.getElementById('success-message').style.display = 'none';
+    }
+    function closeModalOutside(e) { if (e.target === document.getElementById('loginModal')) closeModal(); }
+    function toggleNav() { document.getElementById('mainNav').classList.toggle('open'); }
+    
+    // Handle login form submission
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('loginForm');
+        const btnLogin = document.getElementById('btnLogin');
+        const errorMessage = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+        const successMessage = document.getElementById('success-message');
+        const successText = document.getElementById('success-text');
+        
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(loginForm);
+            
+            // Disable button and show loading
+            btnLogin.disabled = true;
+            btnLogin.textContent = 'Verifying...';
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Send AJAX request
+            fetch('LoginOperation.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Show success message
+                    successText.textContent = data.message;
+                    successMessage.style.display = 'block';
+                    btnLogin.textContent = 'Redirecting...';
+                    
+                    // Redirect to dashboard after 1.5 seconds
+                    setTimeout(function() {
+                        window.location.href = 'dashboard.php';
+                    }, 1500);
+                } else {
+                    // Show error message
+                    errorText.textContent = data.message;
+                    errorMessage.style.display = 'block';
+                    btnLogin.disabled = false;
+                    btnLogin.textContent = 'Verify & Login';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorText.textContent = 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block';
+                btnLogin.disabled = false;
+                btnLogin.textContent = 'Verify & Login';
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
