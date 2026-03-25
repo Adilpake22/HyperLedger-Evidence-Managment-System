@@ -308,19 +308,25 @@ The Blockchain Explorer re-scans the full chain on every page load and highlight
 ## 📸 Screenshots
 
 ### Login Page
-![Login](screenshots/login.png)
+<img width="1341" height="576" alt="image" src="https://github.com/user-attachments/assets/8cb0de21-86f6-40d1-9fc5-ce993f4a5b68" />
+
 
 ### Dashboard
-![Dashboard](dashboard.png)
+<img width="1358" height="596" alt="image" src="https://github.com/user-attachments/assets/b939cd67-0177-49d3-b2b6-420ff2709029" />
+
 
 ### Register Case
-![Register Case](screenshots/register-case.png)
+<img width="1348" height="617" alt="image" src="https://github.com/user-attachments/assets/5c15f68d-f385-46ca-924c-5e1c42d4e4da" />
+
 
 ### Submit Evidence
-![Submit Evidence](screenshots/submit-evidence.png)
+<img width="1339" height="593" alt="image" src="https://github.com/user-attachments/assets/5f703b1b-61e9-4ad0-bf24-b4b203c9f550" />
+
 
 ### Case Explorer
-![Case Explorer](screenshots/case-explorer.png)
+<img width="1354" height="498" alt="image" src="https://github.com/user-attachments/assets/a9eaf35f-f283-4705-87e5-bb66501fcef1" />
+
 
 ### Blockchain Explorer
-![Blockchain Explorer](screenshots/blockchain-explorer.png)
+<img width="1358" height="633" alt="image" src="https://github.com/user-attachments/assets/53488b7e-e90c-46b6-a768-eede0ed615fb" />
+
