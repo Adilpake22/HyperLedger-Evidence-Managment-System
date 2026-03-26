@@ -126,5 +126,16 @@ class EvidenceBlockchain extends Blockchain {
             'timestamp'  => date('Y-m-d H:i:s')
         ]);
     }
+    public function returnTransfer($CaseId, $evidenceId, $fromUser, $toUser, $reason = ""){
+        return $this->addBlock)([
+               'type'    => 'TRANSFER',
+                'caseId' => $caseId,
+                'evidenceId' => $evidenceId,
+                'fromUser'   => $fromuser,
+                'toUser'  => $toUser,
+                'reason' => $reason,
+                'timestamp' =>$date('Y-m-d H:i:s')
+        ]);
+    }
 }
 ?>
