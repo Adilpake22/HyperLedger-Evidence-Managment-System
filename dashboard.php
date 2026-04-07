@@ -376,5 +376,73 @@ if ($r2) $totalEvidence = (int) mysqli_fetch_assoc($r2)['total'];
     <!-- <span>BEMS Portal v2.0 &nbsp;|&nbsp; Build: 2025.02 &nbsp;|&nbsp; <strong>TLS 1.3 Encrypted</strong></span> -->
 </footer>
 
+    <div class="stat-strip">
+        <div class="stat-item">
+            <div class="stat-icon">🔗</div>
+            <div>
+                <div class="stat-label">Chain Status</div>
+                <div class="stat-value" style="color:#186b2e;font-size:14px;font-family:'Source Sans 3',sans-serif;font-weight:700;margin-top:3px;">● Online</div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon">📁</div>
+            <div>
+                <div class="stat-label">Total Cases</div>
+                <div class="stat-value"><?php echo $totalCases; ?></div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon">📦</div>
+            <div>
+                <div class="stat-label">Evidence Items</div>
+                <div class="stat-value"><?php echo $totalEvidence; ?></div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon">🔐</div>
+            <div>
+                <div class="stat-label">Integrity</div>
+                <div class="stat-value" style="color:#186b2e;font-size:14px;font-family:'Source Sans 3',sans-serif;font-weight:700;margin-top:3px;">Verified</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cards-grid">
+
+        <a href="Register.php" class="feat-card">
+            <div class="card-ref">Module 01 &mdash; Case Registry</div>
+            <div class="card-icon-wrap">📁</div>
+            <h3>Register Case</h3>
+            <p>Initiate a new legal case record. The case metadata will be hashed and anchored to the blockchain with an immutable timestamp.</p>
+            <div class="card-access">
+                <span class="card-access-label">Access Module</span>
+                <span class="card-access-btn">Proceed &rarr;</span>
+            </div>
+        </a>
+
+        <a href="submit_evidence.php" class="feat-card">
+            <div class="card-ref">Module 02 &mdash; Evidence Vault</div>
+            <div class="card-icon-wrap">📤</div>
+            <h3>Submit Evidence</h3>
+            <p>Upload and register digital evidence files. Each submission is cryptographically sealed and assigned a verified on-chain hash.</p>
+            <div class="card-access">
+                <span class="card-access-label">Access Module</span>
+                <span class="card-access-btn">Proceed &rarr;</span>
+            </div>
+        </a>
+
+        <!-- ✅ FIXED: was href="#" — now points to explorer_cases.php -->
+        <a href="explorer_cases.php" class="feat-card">
+            <div class="card-ref">Module 03 &mdash; Case Explorer</div>
+            <div class="card-icon-wrap">🔍</div>
+            <h3>Explore Cases</h3>
+            <p>Browse all registered cases, verify chain-of-custody integrity, and retrieve full audit trails for individual evidence items.</p>
+            <div class="card-access">
+                <span class="card-access-label">Access Module</span>
+                <span class="card-access-btn">Proceed &rarr;</span>
+            </div>
+        </a>
+
+    </div>
 </body>
 </html>
