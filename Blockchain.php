@@ -129,3 +129,23 @@ class EvidenceBlockchain extends Blockchain {
    
 }
 ?>
+
+
+ public function addModification($evidenceId, $caseId, $modifiedBy, $reason, $changedFields, $previousHash) {
+        // Build the new block using the previous evidence hash as the chain link
+        $prevBlock = $this->getLatestBlock();
+        $newBlock  = new Block(
+            count($this->chain),
+            [
+                'type'          => 'EVIDENCE_MODIFY',
+                'evidenceId'    => $evidenceId,
+                'caseId'        => $caseId,
+                'modifiedBy'    => $modifiedBy,
+                'reason'        => $reason,
+                'changedFields' => $changedFields,
+                'timestamp'     => date('Y-m-d H:i:s')
+            ],
+            $previousHash   // Link to the hash of the block being modified
+        );
+        $this->chain[] = $newBlock;
+        return $newBlock;
